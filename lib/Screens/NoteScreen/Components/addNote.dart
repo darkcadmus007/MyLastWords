@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mylastwords/Screens/DashBoard/dashboard.dart';
 import 'package:mylastwords/Screens/NoteScreen/note_screen.dart';
 import 'package:mylastwords/Services/notes_services.dart';
 import 'package:mylastwords/Services/user_service.dart';
@@ -23,19 +24,23 @@ class AddNote extends StatefulWidget {
 
 class _AddNoteState extends State<AddNote> {
   final TextEditingController txtNote = TextEditingController();
+  final TextEditingController txtTitle = TextEditingController();
 
   void _validateAddNote() async {
     var errmsg = "";
     if (txtNote.text == "") {
       errmsg = "Please enter a note";
+    }
+    if (txtTitle.text == "") {
+      errmsg = "Please enter a Title";
     } else {
-      ApiResponse response = await addNote("Temp. Title", txtNote.text);
+      ApiResponse response = await addNote(txtTitle.text, txtNote.text);
       if (response.error == null) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return NoteScreen();
+              return DashBoard();
             },
           ),
         );
@@ -44,8 +49,8 @@ class _AddNoteState extends State<AddNote> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 2,
-            backgroundColor: darkBackground,
-            textColor: txtColorLight,
+            backgroundColor: lightBackground,
+            textColor: txtColorDark,
             fontSize: 15.0);
       } else {
         Fluttertoast.showToast(
@@ -81,7 +86,28 @@ class _AddNoteState extends State<AddNote> {
       body: Column(
         children: <Widget>[
           Card(
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            color: txtColorLight,
+            child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: TextField(
+                controller: txtTitle,
+                maxLines: 1,
+                maxLength: 100,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration.collapsed(hintText: "Title..."),
+                style: TextStyle(
+                    color: txtColorDark,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.only(top: 2, left: 15, right: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -93,15 +119,14 @@ class _AddNoteState extends State<AddNote> {
                 maxLines: 10,
                 maxLength: 1000,
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration.collapsed(
-                    hintText: "Enter your note here..."),
+                decoration: InputDecoration.collapsed(hintText: "Body..."),
                 style: TextStyle(
                     color: txtColorDark,
-                    fontSize: 19,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

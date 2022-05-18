@@ -58,7 +58,7 @@ Future<ApiResponse> register(
         apiResponse.data = User.fromJson(jsonDecode(response.body));
         break;
       case 422:
-        final errors = jsonDecode(response.body)['errors'];
+        final errors = jsonDecode(response.body)['error'];
         apiResponse.error = errors[errors.keys.elementAt(0)[0]];
         break;
       case 403:

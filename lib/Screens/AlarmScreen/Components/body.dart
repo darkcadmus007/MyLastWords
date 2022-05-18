@@ -335,9 +335,8 @@ class _BodyState extends State<Body> {
                   );
                 }
                 return Center(
-                  child: Text(
-                    "Loading",
-                    style: TextStyle(color: txtColorLight),
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 );
               },

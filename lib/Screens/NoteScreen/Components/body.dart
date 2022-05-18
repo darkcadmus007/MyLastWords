@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import 'package:mylastwords/Screens/DashBoard/dashboard.dart';
 import 'package:mylastwords/Screens/NoteScreen/Components/addNote.dart';
 import 'package:mylastwords/Services/notes_services.dart';
 import 'package:mylastwords/constants.dart';
@@ -21,104 +25,114 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   void initState() {
-    loadNotes();
     super.initState();
   }
 
-  void loadNotes() async {
-    ApiResponse response = await getNotes();
-    if (response.error == null) {
-      print(response.data);
-    } else {
-      print(response.error);
-    }
+  ListView _notesListView(data) {
+    return ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return _tile(
+              data[index].id,
+              data[index].title.toString(),
+              DateFormat('MMM dd, yyyy   hh:mm aa')
+                  .format(data[index].dateUpdated));
+        });
   }
+
+  ListTile _tile(int id, String title, String dateUpdated) => ListTile(
+        leading: IconButton(
+            icon: Icon(
+              Icons.notes,
+              color: txtColorLight,
+              size: 20,
+            ),
+            color: darkBackground,
+            onPressed: () {}),
+        title: Text(title,
+            style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+                color: txtColorLight)),
+        subtitle: Text(dateUpdated, style: TextStyle(color: txtColorLight)),
+        trailing: IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: txtColorLight,
+              size: 20,
+            ),
+            color: darkBackground,
+            onPressed: () async {
+              ApiResponse response = await deleteNote(id);
+              if (response.error == null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return DashBoard();
+                    },
+                  ),
+                );
+                Fluttertoast.showToast(
+                    msg: 'Note successfully remove',
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: lightBackground,
+                    textColor: txtColorDark,
+                    fontSize: 15.0);
+              } else {
+                Fluttertoast.showToast(
+                    msg: '${response.error}',
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: darkBackground,
+                    textColor: txtColorLight,
+                    fontSize: 15.0);
+              }
+            }),
+      );
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: HeaderTab(
-        backgroundcolor: headerBackgroundColor,
-        title: 'Notes',
-        press: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return AddNote();
-              },
-            ),
-          );
-        },
-      ),
+          backgroundcolor: headerBackgroundColor,
+          title: 'Notes',
+          press: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AddNote();
+                },
+              ),
+            );
+          }),
       backgroundColor: darkBackground,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 30),
+          SizedBox(height: 25),
           Expanded(
-              child: ListView(
-            children: sampleNotesData.map((note) {
-              return GestureDetector(
-                onTap: () {
-                  print("Tapped a Container");
-                },
-                child: Container(
-                  margin:
-                      const EdgeInsets.only(bottom: 12, left: 15, right: 15),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 10,
+            child: FutureBuilder<List<NotesModel>>(
+              future: fetchNotes(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<NotesModel>? data = snapshot.data;
+                  return _notesListView(data);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return Center(
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [kPrimaryLightColor, lightBackground],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      boxShadow: [],
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                note.title.toString(),
-                                style: TextStyle(
-                                    color: txtColorDark,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "May 05, 2022",
-                            style: TextStyle(
-                                color: txtColorDark,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.delete),
-                              color: darkBackground,
-                              onPressed: () {}),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          )),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

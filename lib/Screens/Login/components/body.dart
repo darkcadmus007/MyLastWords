@@ -89,10 +89,17 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    txtEmail.text = "clarkkent@gmail.com";
-    txtPass.text = "Clarkkent_007";
+    txtEmail.text = "tonystark@gmail.com";
+    txtPass.text = "Tonystark_007";
     super.initState();
   }
+
+  // @override
+  // void initState() {
+  //   txtEmail.text = "clarkkent@gmail.com";
+  //   txtPass.text = "Clarkkent_007";
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mylastwords/Background/tracker.dart';
 import 'package:mylastwords/Screens/DashBoard/components/griddashboard.dart';
 import 'package:mylastwords/Screens/Login/login_screen.dart';
 import 'package:mylastwords/Services/user_service.dart';
 import 'package:mylastwords/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 // import 'package:flutter_svg/svg.dart';
 
 class Body extends StatefulWidget {
@@ -22,7 +25,22 @@ class _BodyState extends State<Body> {
   void initState() {
     loadData();
     loadDetails();
+    checkGPS();
+    // UserTracker().sendUserLogData();
     super.initState();
+  }
+
+  checkGPS() async {
+    Location location = new Location();
+    bool _serviceEnabled;
+    LocationData _locationData;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        debugPrint('Location Denied once');
+      }
+    }
   }
 
   loadData() async {
@@ -52,18 +70,17 @@ class _BodyState extends State<Body> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"),
+                    ),
+                    SizedBox(width: 10),
                     Text(
                       '$userName',
                       style: TextStyle(color: txtColorLight, fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: size.height * 0.01),
-                    Text(
-                      "Ironman",
-                      style: TextStyle(color: txtColorLight, fontSize: 13),
                       textAlign: TextAlign.center,
                     ),
                   ],

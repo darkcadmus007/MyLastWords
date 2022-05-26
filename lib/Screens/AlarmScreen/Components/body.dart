@@ -55,6 +55,7 @@ class _BodyState extends State<Body> {
       appBar: HeaderTab(
         backgroundcolor: headerBackgroundColor,
         title: 'Alarm',
+        iconbtn: Icons.alarm_add_rounded,
         press: () {
           showModalBottomSheet(
             useRootNavigator: true,

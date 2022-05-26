@@ -100,6 +100,7 @@ class _BodyState extends State<Body> {
       appBar: HeaderTab(
           backgroundcolor: headerBackgroundColor,
           title: 'Notes',
+          iconbtn: Icons.note_add_outlined,
           press: () {
             Navigator.push(
               context,

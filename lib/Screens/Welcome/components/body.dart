@@ -25,6 +25,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     checkToken();
+
     super.initState();
   }
 

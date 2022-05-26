@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mylastwords/constants.dart';
 
-class HeaderTab extends StatelessWidget implements PreferredSizeWidget {
+class HeaderTabGallery extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final void Function() press;
+  final void Function() takePicture;
+  final void Function() addPicture;
   final Color? backgroundcolor;
-  final IconData? iconbtn;
 
-  const HeaderTab({
+  const HeaderTabGallery({
     Key? key,
     this.title,
     this.backgroundcolor,
-    this.iconbtn,
-    required this.press,
+    required this.takePicture,
+    required this.addPicture,
   }) : super(key: key);
 
   @override
@@ -27,9 +27,14 @@ class HeaderTab extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       actions: [
         IconButton(
-          icon: Icon(iconbtn),
-          onPressed: press,
-          iconSize: 30,
+          icon: Icon(Icons.camera_alt_outlined),
+          onPressed: takePicture,
+          iconSize: 25,
+        ),
+        IconButton(
+          icon: Icon(Icons.image_outlined),
+          onPressed: addPicture,
+          iconSize: 26,
         ),
       ],
     );

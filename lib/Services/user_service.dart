@@ -44,15 +44,16 @@ Future<ApiResponse> register(
   ApiResponse apiResponse = ApiResponse();
 
   try {
-    final response = await http.post(Uri.parse(registerURL), headers: {
-      'Accept': 'application/json'
-    }, body: {
-      'name': "New User",
-      'email': email,
-      'password': password,
-      'type': "user",
-      'subcription': "free",
-    });
+    final response = await http.post(Uri.parse(registerURL),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': "New User",
+          'email': email,
+          'password': password,
+          'type': "user",
+          'subcription': "free",
+          'status': 1
+        }));
     switch (response.statusCode) {
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));
@@ -68,6 +69,7 @@ Future<ApiResponse> register(
         apiResponse.error = "Something went wrong";
     }
   } catch (e) {
+    print("Error in register " + e.toString());
     apiResponse.error = "Server Error";
   }
   return apiResponse;

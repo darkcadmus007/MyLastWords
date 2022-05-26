@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:mylastwords/Screens/AlarmScreen/alarm_screen.dart';
 import 'package:mylastwords/Screens/GalleryScreen/gallery_screen.dart';
 import 'package:mylastwords/Screens/NoteScreen/note_screen.dart';
-import 'package:mylastwords/Screens/Settings/settings_screen.dart';
+import 'package:mylastwords/Screens/ProfileScreen/profile_screen.dart';
 // import 'package:flutter_auth/Screens/AlarmScreen/gallery_screen.dart';
 // import 'package:flutter_auth/Screens/AlarmScreen/settings_screen.dart';
 import 'package:mylastwords/constants.dart';
 
 class GridDashBoard extends StatelessWidget {
   Items item1 = new Items(
-      id: 1, 
+      id: 1,
       title: "Alarm Clock",
       details: "No alarms",
       img: "assets/icons/alarm_clock.png");
@@ -27,9 +27,9 @@ class GridDashBoard extends StatelessWidget {
       img: "assets/icons/gallery.png");
   Items item4 = new Items(
       id: 4,
-      title: "Settings",
+      title: "Profile",
       details: "No updates",
-      img: "assets/icons/settings.png");
+      img: "assets/icons/profile.png");
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +72,12 @@ class GridDashBoard extends StatelessWidget {
                         },
                       ),
                     );
-                  }
-                  else if (data.id == 4) {
-                    
+                  } else if (data.id == 4) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return SettingsScreen();
+                          return ProfileScreen();
                         },
                       ),
                     );

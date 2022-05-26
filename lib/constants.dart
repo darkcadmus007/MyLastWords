@@ -11,8 +11,11 @@ const lightBackground = Color.fromARGB(255, 253, 253, 235);
 const headerBackgroundColor = Color.fromARGB(255, 117, 117, 88);
 
 //User API Endpoints
-// const baseURL = "http://127.0.0.1:8000";
+
+//base URL
 const baseURL = "http://144.126.210.250/api/public";
+// const baseURL = "http://127.0.0.1:8000";
+
 const loginURL = baseURL + '/api/login';
 const registerURL = baseURL + '/api/register';
 const logoutURL = baseURL + '/api/logout';
@@ -22,3 +25,9 @@ const userURL = baseURL + '/api/getUser';
 const addNoteURL = baseURL + '/api/addnote';
 const getNotesURL = baseURL + '/api/getnotes';
 const deleteNotesUrl = baseURL + '/api/deletenote';
+
+//Logs API Endpoints
+const addUserLogURL = baseURL + '/api/addlog';
+
+//Gallery API Endpoints
+const uploadImageURL = baseURL + '/api/uploadImage';

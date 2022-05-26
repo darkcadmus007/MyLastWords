@@ -4,6 +4,7 @@ class User {
   String? email;
   String? type;
   String? subcription;
+  int? status;
   String? token;
 
   User(
@@ -12,6 +13,7 @@ class User {
       this.email,
       this.type,
       this.subcription,
+      this.status,
       this.token});
 
   //function to convrt json data to user model
@@ -22,6 +24,7 @@ class User {
       email: json['user']['email'],
       type: json['user']['type'],
       subcription: json['user']['subcription'],
+      status: json['user']['status'],
       token: json['token'],
     );
   }

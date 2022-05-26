@@ -89,8 +89,6 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    txtEmail.text = "tonystark@gmail.com";
-    txtPass.text = "Tonystark_007";
     super.initState();
   }
 

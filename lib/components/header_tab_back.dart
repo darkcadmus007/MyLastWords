@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mylastwords/constants.dart';
 
-class HeaderTabBack extends StatelessWidget implements PreferredSizeWidget { 
- 
+class HeaderTabBack extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundcolor;
 
   const HeaderTabBack({
     Key? key,
-
     this.backgroundcolor,
-    
   }) : super(key: key);
 
   @override
@@ -19,12 +16,9 @@ class HeaderTabBack extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundcolor,
-      centerTitle: true,
-      
+      centerTitle: false,
       elevation: 0,
-      actions: [
-      
-      ],
+      actions: [],
     );
   }
 }
